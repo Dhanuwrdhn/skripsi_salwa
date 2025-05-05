@@ -56,29 +56,28 @@ class ProductController extends Controller
 
             $validated = $validator->validated();
 
-            if ($request->foto) {
-                // Get file extension (jpg, png, etc)
-                $extension = explode('/', explode(':', substr($request->foto, 0, strpos($request->foto, ';')))[1])[1];
+           if ($request->foto) {
+            // Get file extension (jpg, png, etc)
+            $extension = explode('/', explode(':', substr($request->foto, 0, strpos($request->foto, ';')))[1])[1];
 
-                // Create image name
-                $date = Carbon::now()->format('Ymd');
-                $imageName = str_replace(' ', '_', $validated['nama_toko']) . '_' .
-                            $date . '_' .
-                            str_replace(' ', '_', $validated['nama']) . '.' .
-                            $extension;
+            // Create image name
+            $date = Carbon::now()->format('Ymd');
+            $imageName = str_replace(' ', '_', $validated['nama_toko']) . '_' .
+                        $date . '_' .
+                        str_replace(' ', '_', $validated['nama']) . '.' .
+                        $extension;
 
-                // Create directory if it doesn't exist
-                if (!file_exists(public_path('photos'))) {
-                    mkdir(public_path('photos'), 0777, true);
-                }
-
-                // Decode and save image
-                $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->foto));
-                file_put_contents(public_path('photos/') . $imageName, $image);
-
-                $validated['foto'] = 'photos/' . $imageName;
+            // Create directory if it doesn't exist
+            if (!file_exists(public_path('photos/products'))) {
+                mkdir(public_path('photos/products'), 0777, true);
             }
 
+            // Decode and save image
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->foto));
+            file_put_contents(public_path('photos/products/') . $imageName, $image);
+
+            $validated['foto'] = 'photos/products/' . $imageName;
+        }
             $product = Product::create($validated);
 
             DB::commit();
@@ -164,28 +163,33 @@ class ProductController extends Controller
 
             $validated = $validator->validated();
 
-            if ($request->foto) {
-                // Delete old photo if exists
-                if ($product->foto && file_exists(public_path($product->foto))) {
-                    unlink(public_path($product->foto));
-                }
+             if ($request->foto) {
+        // Delete old photo if exists
+        if ($product->foto && file_exists(public_path($product->foto))) {
+            unlink(public_path($product->foto));
+        }
 
-                // Get file extension
-                $extension = explode('/', explode(':', substr($request->foto, 0, strpos($request->foto, ';')))[1])[1];
+        // Get file extension
+        $extension = explode('/', explode(':', substr($request->foto, 0, strpos($request->foto, ';')))[1])[1];
 
-                // Create image name
-                $date = Carbon::now()->format('Ymd');
-                $imageName = str_replace(' ', '_', $validated['nama_toko']) . '_' .
-                            $date . '_' .
-                            str_replace(' ', '_', $validated['nama']) . '.' .
-                            $extension;
+        // Create image name
+        $date = Carbon::now()->format('Ymd');
+        $imageName = str_replace(' ', '_', $validated['nama_toko']) . '_' .
+                    $date . '_' .
+                    str_replace(' ', '_', $validated['nama']) . '.' .
+                    $extension;
 
-                // Decode and save image
-                $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->foto));
-                file_put_contents(public_path('photos/') . $imageName, $image);
+        // Make sure products directory exists
+        if (!file_exists(public_path('photos/products'))) {
+            mkdir(public_path('photos/products'), 0777, true);
+        }
 
-                $validated['foto'] = 'photos/' . $imageName;
-            }
+        // Decode and save image
+        $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->foto));
+        file_put_contents(public_path('photos/products/') . $imageName, $image);
+
+        $validated['foto'] = 'photos/products/' . $imageName;
+    }
 
             $product->update($validated);
 

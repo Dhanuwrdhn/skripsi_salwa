@@ -70,7 +70,69 @@ Server akan berjalan di `http://localhost:8000`
 
 ## API Endpoints
 
-### Products API
+### Shops API
+
+#### Get All Shops
+
+```http
+GET /api/v1/shops
+```
+
+Response will include all shops with their products.
+
+#### Create Shop
+
+```http
+POST /api/v1/shops
+
+{
+    "nama": "Nama Toko",
+    "pemilik": "Nama Pemilik",
+    "alamat": "Alamat Toko",
+    "foto": "data:image/jpeg;base64,/9j/4AAQSkZJRgAB...",
+    "deskripsi": "Deskripsi toko"
+}
+```
+
+#### Get Shop Detail
+
+```http
+GET /api/v1/shops/{id}
+```
+
+Response will include shop details and its products.
+
+#### Get Shop Products
+
+```http
+GET /api/v1/shops/{id}/products
+```
+
+Returns all products belonging to a specific shop.
+
+#### Update Shop
+
+```http
+POST /api/v1/shops/{id}
+
+{
+    "nama": "Nama Toko Update",
+    "pemilik": "Nama Pemilik Update",
+    "alamat": "Alamat Toko Update",
+    "foto": "data:image/jpeg;base64,/9j/4AAQSkZJRgAB...",
+    "deskripsi": "Deskripsi toko update"
+}
+```
+
+#### Delete Shop
+
+```http
+DELETE /api/v1/shops/{id}
+```
+
+Deleting a shop will also delete all its products and related photos.
+
+### Products API (Updated)
 
 #### Get All Products
 
@@ -84,14 +146,16 @@ GET /api/v1/products
 POST /api/v1/products
 
 {
+    "shop_id": 1,
     "nama": "Nama Produk",
     "harga": 100000,
-    "nama_toko": "Nama Toko",
     "foto": "data:image/jpeg;base64,/9j/4AAQSkZJRgAB...",
     "kategori": "Kategori",
     "description": "Deskripsi produk"
 }
 ```
+
+Note: `nama_toko` field has been replaced with `shop_id`
 
 #### Get Product Detail
 
@@ -195,11 +259,19 @@ DELETE /api/v1/activities/{id}
 ## Catatan
 
 -   Foto dikirim dalam format base64 string
--   Foto akan disimpan di folder `public/photos`
--   Nama file foto untuk produk: `nama_toko_tanggal_nama_produk.extension`
--   Nama file foto untuk kegiatan: `nama_kegiatan.extension`
+-   Foto akan disimpan di folder:
+    -   Produk: `public/photos/products`
+    -   Toko: `public/photos/shops`
+    -   Kegiatan: `public/photos/activities`
+-   Format nama file:
+    -   Foto toko: `nama_toko.extension`
+    -   Foto produk: `nama_toko_tanggal_nama_produk.extension`
+    -   Foto kegiatan: `nama_kegiatan.extension`
+-   Menghapus toko akan otomatis menghapus semua produk yang terkait
+-   Semua foto terkait akan dihapus saat data dihapus
 
 ## License
 
 [MIT License](LICENSE)
+
 # skripsi_salwa

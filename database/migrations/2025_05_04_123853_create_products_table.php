@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('shop_id')->constrained()->onDelete('cascade');
             $table->string('nama');
             $table->decimal('harga', 10, 2);
-            $table->string('nama_toko');
             $table->string('foto')->nullable();
             $table->string('kategori');
             $table->text('description')->nullable();

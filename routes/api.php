@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +12,16 @@ use App\Http\Controllers\ActivityController;
 */
 
 Route::prefix('v1')->group(function () {
+    // Shops Routes
+    Route::prefix('shops')->group(function () {
+        Route::get('/', [ShopController::class, 'index']);
+        Route::post('/', [ShopController::class, 'store']);
+        Route::get('/{id}', [ShopController::class, 'show']);
+        Route::post('/{id}', [ShopController::class, 'update']);
+        Route::delete('/{id}', [ShopController::class, 'destroy']);
+        Route::get('/{id}/products', [ShopController::class, 'getProducts']); // Get products by shop
+    });
+
     // Products Routes
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
