@@ -147,15 +147,15 @@ POST /api/v1/products
 
 {
     "shop_id": 1,
+    "category_id": 1,
     "nama": "Nama Produk",
     "harga": 100000,
     "foto": "data:image/jpeg;base64,/9j/4AAQSkZJRgAB...",
-    "kategori": "Kategori",
     "description": "Deskripsi produk"
 }
 ```
 
-Note: `nama_toko` field has been replaced with `shop_id`
+Note: `nama_toko` field has been replaced with `shop_id` and `kategori` field has been replaced with `category_id`
 
 #### Get Product Detail
 
@@ -169,11 +169,11 @@ GET /api/v1/products/{id}
 POST /api/v1/products/{id}
 
 {
+    "shop_id": 1,
+    "category_id": 1,
     "nama": "Nama Produk Update",
     "harga": 150000,
-    "nama_toko": "Nama Toko Update",
     "foto": "data:image/jpeg;base64,/9j/4AAQSkZJRgAB...",
-    "kategori": "Kategori Update",
     "description": "Deskripsi produk update"
 }
 ```
@@ -233,6 +233,72 @@ POST /api/v1/activities/{id}
 ```http
 DELETE /api/v1/activities/{id}
 ```
+
+### Categories API
+
+#### Get All Categories
+
+```http
+GET /api/v1/categories
+```
+
+Returns all categories with their associated products.
+
+#### Create Category
+
+```http
+POST /api/v1/categories
+
+{
+    "nama": "Nama Kategori",
+    "deskripsi": "Deskripsi kategori"
+}
+```
+
+#### Get Category Detail
+
+```http
+GET /api/v1/categories/{id}
+```
+
+Returns category details with its associated products.
+
+#### Update Category
+
+```http
+POST /api/v1/categories/{id}
+
+{
+    "nama": "Nama Kategori Update",
+    "deskripsi": "Deskripsi kategori update"
+}
+```
+
+#### Delete Category
+
+```http
+DELETE /api/v1/categories/{id}
+```
+
+Note: Cannot delete category if it has associated products.
+
+### Default Categories
+
+The system comes with pre-defined categories:
+
+**Makanan (Food):**
+
+1. Makanan Berat - Main dishes (rice, noodles, etc)
+2. Makanan Ringan - Snacks
+3. Minuman - Beverages
+4. Kue dan Roti - Cakes and Bread
+
+**Kecantikan (Beauty):**
+
+1. Perawatan Wajah - Facial Care
+2. Perawatan Tubuh - Body Care
+3. Makeup - Cosmetics
+4. Perawatan Rambut - Hair Care
 
 ## Format Response
 

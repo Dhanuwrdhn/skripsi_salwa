@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShopController;
 
 /*
@@ -21,7 +22,6 @@ Route::prefix('v1')->group(function () {
         Route::delete('/{id}', [ShopController::class, 'destroy']);
         Route::get('/{id}/products', [ShopController::class, 'getProducts']); // Get products by shop
     });
-
     // Products Routes
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
@@ -30,7 +30,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
-
     // Activities Routes
     Route::prefix('activities')->group(function () {
         Route::get('/', [ActivityController::class, 'index']);
@@ -38,5 +37,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/{id}', [ActivityController::class, 'show']);
         Route::post('/{id}', [ActivityController::class, 'update']);
         Route::delete('/{id}', [ActivityController::class, 'destroy']);
+    });
+    // Categories Routes
+    Route::prefix('categories')->group(function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::get('/{id}', [CategoryController::class, 'show']);
+        Route::post('/{id}', [CategoryController::class, 'update']);
+        Route::delete('/{id}', [CategoryController::class, 'destroy']);
     });
 });

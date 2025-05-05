@@ -32,15 +32,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'shop_id' => 'required|exists:shops,id',
+            'category_id' => 'required|exists:categories,id',
             'nama' => 'required',
             'harga' => 'required|numeric',
-            'nama_toko' => 'required',
-            'foto' => 'required|string', // Changed to accept base64 string
-            'kategori' => 'required',
+            'foto' => 'required|string',
             'description' => 'nullable'
         ], [
             'required' => ':attribute harus diisi',
-            'numeric' => ':attribute harus berupa angka'
+            'numeric' => ':attribute harus berupa angka',
+            'exists' => ':attribute tidak ditemukan'
         ]);
 
         if ($validator->fails()) {
@@ -141,9 +142,9 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'harga' => 'required|numeric',
-            'nama_toko' => 'required',
             'foto' => 'nullable|string', // Changed to accept base64 string
-            'kategori' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'shop_id' => 'required|exists:shops,id',
             'description' => 'nullable'
         ], [
             'required' => ':attribute harus diisi',
